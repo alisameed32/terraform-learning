@@ -1,0 +1,23 @@
+1. List all workspaces 
+terraform workspace list
+
+
+“This shows all available workspaces, with an asterisk next to the one currently active.”
+
+ 2. Create a new workspace 
+terraform workspace new dev
+
+
+“This creates a new workspace called dev and switches you to it.”
+
+ 3. Switch between workspaces 
+terraform workspace select prod
+
+
+“Use this to switch to another workspace — like moving from dev to prod.”
+
+ 4. Show current workspace
+terraform workspace show
+
+
+“This command displays which workspace you’re currently using.”
