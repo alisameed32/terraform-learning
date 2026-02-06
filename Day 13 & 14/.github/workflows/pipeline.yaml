@@ -1,0 +1,37 @@
+name: Terraform Multi-Cloud
+
+on: [push]
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+
+    # Azure
+    - name: Terraform Azure
+      env:
+        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      run: |
+        cd azure/terraform
+        terraform init
+        terraform plan
+
+    # GCP
+    - name: Terraform GCP
+      env:
+        GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+      run: |
+        cd GCP/terraform
+        echo "$GCP_SA_KEY" > key.json
+        export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/key.json
+        terraform init
+        terraform plan
